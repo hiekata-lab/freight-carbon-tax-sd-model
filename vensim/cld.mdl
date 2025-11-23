@@ -1,0 +1,163 @@
+{UTF-8}
+Average Fuel Efficiency  = A FUNCTION OF( Cost Pressure on Efficiency)
+	~	
+	~		|
+
+Carbon Intensity Adjustment  = A FUNCTION OF( Carbon Intensity of Fuel)
+	~	
+	~		|
+
+Carbon Intensity of Fuel  = A FUNCTION OF( Carbon Intensity Adjustment,Carbon Tax Rate\
+		)
+	~	
+	~		|
+
+Fuel Cost per km  = A FUNCTION OF( Average Fuel Efficiency,Carbon Tax Rate)
+	~	
+	~		|
+
+Cost Pressure on Efficiency  = A FUNCTION OF( Fuel Cost per km)
+	~	
+	~		|
+
+Emissions  = A FUNCTION OF( Carbon Intensity of Fuel,Fuel Consumption)
+	~	
+	~		|
+
+Freight Activity  = A FUNCTION OF( Freight Demand)
+	~	
+	~		|
+
+Revenue  = A FUNCTION OF( Freight Activity,Freight Price)
+	~	
+	~		|
+
+Freight Price  = A FUNCTION OF( Fuel Cost per km)
+	~	
+	~		|
+
+Fuel Consumption  = A FUNCTION OF( Average Fuel Efficiency,Freight Activity)
+	~	
+	~		|
+
+Profitability  = A FUNCTION OF( Operating Expenses,Revenue)
+	~	
+	~		|
+
+Operating Expenses  = A FUNCTION OF( Fuel Cost per km)
+	~	
+	~		|
+
+Operator Viability  = A FUNCTION OF( Profitability)
+	~	
+	~		|
+
+Freight Demand  = A FUNCTION OF( Freight Price)
+	~	
+	~		|
+
+Carbon Tax Rate  = A FUNCTION OF( )
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	Month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,55,2
+10,1,Carbon Tax Rate,155,752,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,2,Fuel Cost per km,430,765,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,3,Freight Price,637,682,48,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,4,Freight Demand,763,753,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,5,Freight Activity,744,838,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,6,Average Fuel Efficiency,487,641,59,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,7,Carbon Intensity of Fuel,454,876,62,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,8,Profitability,642,869,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+12,9,0,357,872,26,26,5,7,0,0,-1,1,0,0,0,0,0,0,0,0
+B2
+12,10,0,424,694,26,26,4,7,0,0,-1,1,0,0,0,0,0,0,0,0
+B1
+10,11,Cost Pressure on Efficiency,353,666,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,12,6,2,1,0,0,0,0,192,0,-1--1--1,,1|(476,707)|
+1,13,11,6,1,0,0,0,0,192,0,-1--1--1,,1|(416,624)|
+1,14,2,3,1,0,43,0,0,192,0,-1--1--1,,1|(522,713)|
+1,15,3,4,1,0,45,0,0,192,0,-1--1--1,,1|(705,705)|
+1,16,4,5,1,0,43,0,0,192,0,-1--1--1,,1|(772,795)|
+1,17,2,11,1,0,0,0,0,192,0,-1--1--1,,1|(362,713)|
+10,18,Carbon Intensity Adjustment,253,863,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,19,7,18,1,0,0,0,0,192,0,-1--1--1,,1|(375,828)|
+1,20,18,7,1,0,0,0,0,192,0,-1--1--1,,1|(336,919)|
+1,21,1,2,1,0,43,0,1,192,0,0-0-255,|||0-0-0,1|(267,747)|
+1,22,1,7,1,0,0,0,0,192,0,-1--1--1,,1|(359,785)|
+10,23,Operating Expenses,531,812,53,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,24,2,23,1,0,0,0,0,192,0,-1--1--1,,1|(485,762)|
+10,25,Revenue,629,786,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,26,3,25,1,0,0,0,0,192,0,-1--1--1,,1|(620,726)|
+1,27,5,25,1,0,0,0,0,192,0,-1--1--1,,1|(691,835)|
+1,28,23,8,1,0,0,0,0,192,0,-1--1--1,,1|(561,855)|
+1,29,25,8,1,0,0,0,0,192,0,-1--1--1,,1|(627,831)|
+10,30,Operator Viability,998,878,47,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,31,8,30,1,0,0,0,0,192,0,-1--1--1,,1|(844,903)|
+10,32,Fuel Consumption,816,702,49,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+10,33,Emissions,989,821,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,34,7,33,1,0,0,0,0,192,0,-1--1--1,,1|(723,910)|
+1,35,5,32,1,0,0,0,0,192,0,-1--1--1,,1|(799,804)|
+1,36,32,33,1,0,0,0,0,192,0,-1--1--1,,1|(880,768)|
+1,37,6,32,1,0,0,0,0,192,0,-1--1--1,,1|(683,648)|
+///---\\\
+:L<%^E!@
+5:Operator Viability
+19:55,0
+24:0
+25:0
+26:0
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Vensim Sans|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1

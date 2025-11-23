@@ -1,0 +1,506 @@
+{UTF-8}
+Actual Freight Price=Baseline Freight Price
+	  + "Effective Pass-Through Share" * Extra Fuel Cost per km
+	~	
+	~		|
+
+Average Fuel Efficiency= INTEG (Improvement-Degradation,
+		Baseline Fuel Efficiency)
+	~	km/l
+	~		|
+
+Baseline CI=0.00268
+	~	tCO2/liter
+	~		|
+
+Baseline Demand=19 * POWER(10,9)
+	~	tkm/month
+	~		|
+
+Baseline Freight Price=Baseline Operating Cost per km + Baseline Margin per km
+	~	¥/tkm
+	~		|
+
+Baseline Fuel Cost per km="Pre-Tax Fuel Price" / Baseline Fuel Efficiency
+	~	¥/km
+	~		|
+
+Baseline Fuel Efficiency=2.84
+	~	km/liter
+	~		|
+
+Baseline Margin per km=0.05 * Baseline Operating Cost per km
+	~	
+	~		|
+
+Baseline Operating Cost per km="Non-Fuel Cost per km" + Baseline Fuel Cost per km
+	~	
+	~		|
+
+Carbon Content of Fuel=0.00268
+	~	tCO2/liter
+	~		|
+
+Carbon Intensity of Fuel= INTEG (CI Adjustment,
+		Baseline CI)
+	~	tCO2/liter
+	~		|
+
+Carbon Tax at Full CI Reduction=40000
+	~	¥/tCO2
+	~		|
+
+Carbon Tax Rate=289
+	~	¥/tCO2
+	~		|
+
+CI Adjustment=( Target Carbon Intensity - Carbon Intensity of Fuel ) / Tau CI
+	~	
+	~		|
+
+Cost Pressure at Max Improvement=1
+	~	dmnl
+	~		|
+
+Cost Pressure on Efficiency=Cost Pressure Sensitivity * (Fuel Cost per km / Baseline Fuel Cost per km\
+		 - 1)
+	~	
+	~		|
+
+Cost Pressure Sensitivity=0.2
+	~	—
+	~		|
+
+Cumulative CO2= INTEG (Emissions,
+		0)
+	~	
+	~		|
+
+Cumulative Profit= INTEG (Profit,
+		0)
+	~	
+	~		|
+
+Degradation=Average Fuel Efficiency * Degradation Rate
+	~	
+	~		|
+
+Degradation Rate=0
+	~	1/month
+	~		|
+
+"Desired Pass-Through Share"=0.5
+	~	fraction
+	~		|
+
+Duration Below Margin Threshold= INTEG (IF THEN ELSE( Rolling Margin < Margin Threshold\
+		 , 1 , 0 ),
+		0)
+	~	
+	~		|
+
+Duration Threshold=6
+	~	months
+	~		|
+
+"Effective Pass-Through Share"=SMOOTH ( "Desired Pass-Through Share" , Tau p )
+	~	
+	~		|
+
+Efficiency Target=MIN( Average Fuel Efficiency * Max Efficiency ,
+	       Average Fuel Efficiency * ( 1
+	         + (Max Efficiency - 1)
+	           * ( Cost Pressure on Efficiency
+	               / ( Cost Pressure on Efficiency + Cost Pressure at Max Improvement ) \
+		) ) )
+	~	km/liter
+	~		|
+
+Elasticity LR=-0.6
+	~	dimensionless
+	~		|
+
+Elasticity SR=-0.2
+	~	dimensionless
+	~		|
+
+Emissions=Fuel Consumption * Carbon Intensity of Fuel
+	~	
+	~		|
+
+Extra Fuel Cost per km=Fuel Cost per km - Baseline Fuel Cost per km
+	~	
+	~		|
+
+Freight Activity=Freight Demand
+	~	
+	~		|
+
+Freight Activity Growth Rate=0
+	~	1/month
+	~		|
+
+Freight Demand=Underlying Freight Activity
+	  + "Short-Run Price Effect on Demand"
+	  + "Long-Run Price Effect on Demand"
+	~	tkm/month
+	~		|
+
+Fuel Consumption=Freight Activity / Average Fuel Efficiency
+	~	
+	~		|
+
+Fuel Cost per km=Fuel Price / Average Fuel Efficiency
+	~	
+	~		|
+
+Fuel Price="Pre-Tax Fuel Price" + Tax per Liter
+	~	
+	~		|
+
+Improvement=( Efficiency Target - Average Fuel Efficiency ) / Tau Eff
+	~	
+	~		|
+
+"Long-Run Price Effect on Demand"=SMOOTH( Underlying Freight Activity
+	          * ( (Perceived Freight Price / Baseline Freight Price) ^ Elasticity LR )
+	          - Underlying Freight Activity,
+	          Tau LR )
+	~	
+	~		|
+
+Margin=Profit / Revenue
+	~	
+	~		|
+
+Margin Threshold=0.02
+	~	fraction
+	~		|
+
+Max Efficiency=1.25
+	~	—
+	~		|
+
+Max Reduction CI=0.45
+	~	fraction
+	~		|
+
+"Non-Fuel Cost per km"=90
+	~	¥/km
+	~		|
+
+Operating Cost per km="Non-Fuel Cost per km" + Fuel Cost per km
+	~	
+	~		|
+
+Operating Expenses=Freight Activity * Operating Cost per km
+	~	
+	~		|
+
+Perceived Freight Price=SMOOTH ( Actual Freight Price , Tau p )
+	~	
+	~		|
+
+"Pre-Tax Fuel Price"=108
+	~	¥/liter
+	~		|
+
+Profit=Revenue - Operating Expenses
+	~	
+	~		|
+
+Revenue=Freight Activity * Perceived Freight Price
+	~	
+	~		|
+
+Rolling Margin=SMOOTH ( Margin , Tau m )
+	~	
+	~		|
+
+"Short-Run Price Effect on Demand"=SMOOTH( Underlying Freight Activity
+	          * ( (Perceived Freight Price / Baseline Freight Price) ^ Elasticity SR )
+	          - Underlying Freight Activity,
+	          Tau SR )
+	~	
+	~		|
+
+Target Carbon Intensity=Baseline CI
+	  * ( 1
+	      - Max Reduction CI
+	        * MIN( 1 ,
+	               Carbon Tax Rate / Carbon Tax at Full CI Reduction ) )
+	~	tCO2/liter
+	~		|
+
+Tau CI=120
+	~	months
+	~		|
+
+Tau Eff=36
+	~	dimensionless
+	~		|
+
+Tau LR=24
+	~	months
+	~		|
+
+Tau m=12
+	~	months
+	~		|
+
+Tau p=6
+	~	months
+	~		|
+
+Tau SR=3
+	~	months
+	~		|
+
+Tax per Liter=Carbon Tax Rate * Carbon Content of Fuel
+	~	
+	~		|
+
+Underlying Freight Activity= INTEG (Freight Activity Growth Rate * Underlying Freight Activity\
+		,
+		Baseline Demand)
+	~	
+	~		|
+
+Viability Flag=IF THEN ELSE( (Duration Below Margin Threshold > Duration Threshold) :OR:\
+		 (Cumulative Profit < 0),
+	                0,
+	                1 )
+	~	
+	~		|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 120
+	~	month
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	month
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	month [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 1
+	~	month [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*View 1
+$-1--1--1,0,|12||-1--1--1|-1--1--1|-1--1--1|-1--1--1|-1--1--1|96,96,73,2
+10,1,Carbon Tax Rate,188,120,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,2,"Pre-Tax Fuel Price",434,334,48,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,3,Tax per Liter,291,248,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,4,Fuel Price,553,227,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,5,Fuel Cost per km,765,310,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,6,"Non-Fuel Cost per km",867,541,57,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,7,Operating Cost per km,742,625,59,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,8,"Desired Pass-Through Share",1050,297,58,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,9,"Effective Pass-Through Share",1067,223,59,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,10,Perceived Freight Price,1247,204,60,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,11,Baseline Demand,1054,712,47,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,12,"Short-Run Price Effect on Demand",1201,429,65,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,13,"Long-Run Price Effect on Demand",1486,420,63,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,14,Freight Demand,1315,590,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,15,Freight Activity,1543,619,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,16,Fuel Consumption,1768,617,49,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,17,Cumulative CO2,2125,536,46,26,3,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,18,Revenue,1410,794,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,19,Operating Expenses,1050,782,53,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,20,Margin,1584,718,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,21,Rolling Margin,1927,681,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,22,Cumulative Profit,2087,871,47,26,3,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,23,Viability Flag,2225,764,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,24,Average Fuel Efficiency,571,721,59,26,3,3,0,0,-1,1,0,0,0,0,0,0,0,0
+12,25,48,255,721,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,26,28,25,100,0,0,22,0,192,0,-1--1--1,,1|(323,721)|
+1,27,28,24,4,0,0,22,0,192,0,-1--1--1,,1|(453,721)|
+11,28,0,388,721,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,29,Improvement,388,755,46,26,40,3,0,0,-1,1,0,0,0,0,0,0,0,0
+12,30,48,856,721,10,8,0,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,31,33,24,100,0,0,22,0,192,0,-1--1--1,,1|(681,721)|
+1,32,33,30,4,0,0,22,0,192,0,-1--1--1,,1|(795,721)|
+11,33,0,738,721,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,34,Degradation,738,755,46,26,40,3,0,0,-1,1,0,0,0,0,0,0,0,0
+12,35,48,1840,538,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,36,38,35,100,0,0,22,0,192,0,-1--1--1,,1|(1904,538)|
+1,37,38,17,4,0,0,22,0,192,0,-1--1--1,,1|(2024,538)|
+11,38,0,1964,538,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,39,Emissions,1964,572,46,26,40,3,0,0,-1,1,0,0,0,0,0,0,0,0
+12,40,48,1791,871,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,41,43,40,100,0,0,22,0,192,0,-1--1--1,,1|(1857,871)|
+1,42,43,22,4,0,0,22,0,192,0,-1--1--1,,1|(1983,871)|
+11,43,0,1920,871,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,44,Profit,1920,905,46,26,40,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,45,Cost Pressure on Efficiency,357,556,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,46,Cost Pressure Sensitivity,131,575,63,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,47,1,3,1,0,0,0,0,192,0,-1--1--1,,1|(255,149)|
+1,48,3,4,1,0,0,0,0,192,0,-1--1--1,,1|(428,214)|
+1,49,2,4,1,0,0,0,0,192,0,-1--1--1,,1|(455,252)|
+1,50,4,5,1,0,0,0,0,192,0,-1--1--1,,1|(628,301)|
+1,51,24,5,1,0,0,0,0,192,0,-1--1--1,,1|(725,514)|
+1,52,5,7,1,0,0,0,0,192,0,-1--1--1,,1|(791,429)|
+1,53,6,7,1,0,0,0,0,192,0,-1--1--1,,1|(794,605)|
+1,54,8,9,1,0,0,0,0,192,0,-1--1--1,,1|(1120,275)|
+1,55,10,12,1,0,0,0,0,192,0,-1--1--1,,1|(1290,309)|
+1,56,12,14,1,0,0,0,0,192,0,-1--1--1,,1|(1286,485)|
+1,57,10,13,1,0,0,0,0,192,0,-1--1--1,,1|(1413,286)|
+1,58,13,14,1,0,0,0,0,192,0,-1--1--1,,1|(1435,512)|
+1,59,14,15,1,0,0,0,0,192,0,-1--1--1,,1|(1411,625)|
+1,60,15,16,1,0,0,0,0,192,0,-1--1--1,,1|(1638,575)|
+1,61,16,38,1,0,0,0,0,192,0,-1--1--1,,1|(1884,590)|
+1,62,10,18,1,0,0,0,0,192,0,-1--1--1,,1|(1385,450)|
+1,63,15,18,1,0,0,0,0,192,0,-1--1--1,,1|(1516,697)|
+1,64,15,19,1,0,0,0,0,192,0,-1--1--1,,1|(1325,741)|
+1,65,19,43,1,0,0,0,0,192,0,-1--1--1,,1|(1516,929)|
+1,66,18,43,1,0,0,0,0,192,0,-1--1--1,,1|(1693,803)|
+1,67,18,20,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,68,20,21,1,0,0,0,0,192,0,-1--1--1,,1|(1723,683)|
+1,69,22,23,1,0,0,0,0,192,0,-1--1--1,,1|(2177,851)|
+10,70,Margin Threshold,2050,644,48,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,71,5,45,1,0,0,0,0,192,0,-1--1--1,,1|(620,511)|
+1,72,46,45,1,0,0,0,0,192,0,-1--1--1,,1|(247,548)|
+10,73,Carbon Content of Fuel,86,284,61,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,74,73,3,1,0,0,0,0,192,0,-1--1--1,,1|(183,240)|
+10,75,Tau p,1197,315,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,76,75,9,1,0,0,0,0,192,0,-1--1--1,,1|(1146,220)|
+10,77,Tau SR,1084,465,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,78,Elasticity SR,1025,548,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,79,77,12,1,0,0,0,0,192,0,-1--1--1,,1|(1151,478)|
+1,80,78,12,1,0,0,0,0,192,0,-1--1--1,,1|(1114,532)|
+10,81,Baseline Freight Price,1089,352,56,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,82,81,12,1,0,0,0,0,192,0,-1--1--1,,1|(1131,412)|
+1,83,81,13,1,0,0,0,0,192,0,-1--1--1,,1|(1292,361)|
+10,84,Tau LR,1603,520,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,85,84,13,1,0,0,0,0,192,0,-1--1--1,,1|(1515,480)|
+10,86,Elasticity LR,1530,271,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,87,86,13,1,0,0,0,0,192,0,-1--1--1,,1|(1548,337)|
+1,88,24,16,1,0,0,0,0,192,0,-1--1--1,,1|(1391,914)|
+10,89,Degradation Rate,863,807,47,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,90,89,33,1,0,0,0,0,192,0,-1--1--1,,1|(812,752)|
+10,91,Baseline Fuel Cost per km,553,410,66,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,92,91,45,1,0,0,0,0,192,0,-1--1--1,,1|(492,494)|
+1,93,24,33,1,0,0,0,0,192,0,-1--1--1,,1|(664,744)|
+1,94,7,19,0,0,0,0,0,192,0,-1--1--1,,1|(0,0)|
+1,95,43,20,1,0,0,0,0,192,0,-1--1--1,,1|(1800,781)|
+10,96,Tau m,1923,773,46,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,97,96,21,1,0,0,0,0,192,0,-1--1--1,,1|(1859,704)|
+10,98,Duration Below Margin Threshold,2080,748,60,26,3,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,99,98,23,1,0,0,0,0,192,0,-1--1--1,,1|(2168,714)|
+1,100,70,98,1,0,0,0,0,192,0,-1--1--1,,1|(2076,684)|
+1,101,21,98,1,0,0,0,0,192,0,-1--1--1,,1|(2036,693)|
+10,102,Duration Threshold,2197,630,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,103,102,23,1,0,0,0,0,192,0,-1--1--1,,1|(2246,703)|
+10,104,Max Efficiency,-10,671,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,105,Carbon Intensity of Fuel,1936,310,62,26,3,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,106,Tau CI,1613,437,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,107,Target Carbon Intensity,1531,216,61,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,108,Baseline CI,1758,190,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,109,Max Reduction CI,1426,96,47,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,110,Tau Eff,344,868,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,111,Cost Pressure at Max Improvement,86,861,56,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+10,112,Efficiency Target,175,675,46,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,113,104,112,1,0,0,0,0,192,0,-1--1--1,,1|(88,637)|
+1,114,45,112,1,0,0,0,0,192,0,-1--1--1,,1|(264,593)|
+1,115,111,112,1,0,0,0,0,192,0,-1--1--1,,1|(177,795)|
+1,116,112,28,1,0,0,0,0,192,0,-1--1--1,,1|(301,688)|
+1,117,110,28,1,0,0,0,0,192,0,-1--1--1,,1|(321,767)|
+1,118,24,28,1,0,0,0,0,192,0,-1--1--1,,1|(487,676)|
+1,119,108,107,1,0,0,0,0,192,0,-1--1--1,,1|(1634,187)|
+1,120,109,107,1,0,0,0,0,192,0,-1--1--1,,1|(1487,148)|
+10,121,Carbon Tax at Full CI Reduction,1579,86,54,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,122,121,107,1,0,0,0,0,192,0,-1--1--1,,1|(1567,151)|
+1,123,1,107,1,0,0,0,0,192,0,-1--1--1,,1|(885,44)|
+1,124,105,38,1,0,0,0,0,192,0,-1--1--1,,1|(2006,416)|
+10,125,Actual Freight Price,1117,118,51,26,8,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,126,9,125,1,0,0,0,0,192,0,-1--1--1,,1|(1030,176)|
+1,127,125,10,1,0,0,0,0,192,0,-1--1--1,,1|(1197,136)|
+1,128,75,10,1,0,0,0,0,192,0,-1--1--1,,1|(1258,269)|
+1,129,108,105,1,0,0,0,0,192,1,-1--1--1,,1|(1850,234)|
+12,130,48,1640,310,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,131,133,130,100,0,0,22,0,192,0,-1--1--1,,1|(1703,310)|
+1,132,133,105,4,0,0,22,0,192,0,-1--1--1,,1|(1821,310)|
+11,133,0,1762,310,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,134,CI Adjustment,1762,344,46,26,40,3,0,0,-1,1,0,0,0,0,0,0,0,0
+1,135,105,133,1,0,0,0,0,192,0,-1--1--1,,1|(1841,344)|
+1,136,107,133,1,0,0,0,0,192,0,-1--1--1,,1|(1697,250)|
+1,137,106,133,1,0,0,0,0,192,0,-1--1--1,,1|(1671,365)|
+10,138,Underlying Freight Activity,1179,616,49,26,3,3,0,0,-1,1,0,0,0,0,0,0,0,0
+12,139,48,828,616,10,8,0,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,140,142,139,100,0,0,22,0,192,0,-1--1--1,,1|(906,616)|
+1,141,142,138,4,0,0,22,0,192,0,-1--1--1,,1|(1058,616)|
+11,142,0,981,616,6,8,34,3,0,0,1,0,0,0,0,0,0,0,0,0
+10,143,Freight Activity Growth Rate,981,650,59,26,40,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,144,11,138,1,0,0,0,0,192,1,-1--1--1,,1|(1162,695)|
+1,145,138,12,1,0,0,0,0,192,0,-1--1--1,,1|(1186,506)|
+1,146,138,13,1,0,0,0,0,192,0,-1--1--1,,1|(1300,481)|
+1,147,138,14,1,0,0,0,0,192,0,-1--1--1,,1|(1255,633)|
+1,148,24,112,1,0,0,0,0,192,0,-1--1--1,,1|(422,629)|
+1,149,2,91,1,0,0,0,0,192,0,-1--1--1,,1|(543,304)|
+10,150,Baseline Fuel Efficiency,405,455,60,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,151,150,91,1,0,0,0,0,192,0,-1--1--1,,1|(467,394)|
+1,152,150,24,1,0,0,0,0,192,1,-1--1--1,,1|(502,572)|
+10,153,Baseline Operating Cost per km,962,454,62,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,154,91,153,1,0,0,0,0,192,0,-1--1--1,,1|(775,472)|
+1,155,6,153,1,0,0,0,0,192,0,-1--1--1,,1|(925,512)|
+10,156,Baseline Margin per km,926,339,62,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,157,153,156,1,0,0,0,0,192,0,-1--1--1,,1|(928,409)|
+1,158,156,81,1,0,0,0,0,192,0,-1--1--1,,1|(1043,381)|
+1,159,153,81,1,0,0,0,0,192,0,-1--1--1,,1|(1046,428)|
+10,160,Extra Fuel Cost per km,859,183,59,26,8,3,0,0,-1,0,0,0,0,0,0,0,0,0
+1,161,5,160,1,0,0,0,0,192,0,-1--1--1,,1|(867,249)|
+1,162,160,125,1,0,0,0,0,192,0,-1--1--1,,1|(947,101)|
+1,163,91,160,1,0,0,0,0,192,0,-1--1--1,,1|(685,276)|
+1,164,81,125,1,0,0,0,0,192,0,-1--1--1,,1|(946,265)|
+///---\\\
+:L<%^E!@
+1:/Users/oliverodhe/Local/Tokyo/lisd-research/research-repo-new/mvp/output/test0.vdfx
+1:/Users/oliverodhe/Local/Tokyo/lisd-research/research-repo-new/mvp/output/test1.vdfx
+1:/Users/oliverodhe/Local/Tokyo/lisd-research/research-repo-new/mvp/output/test2.vdfx
+4:Time
+5:Margin Threshold
+9:output/test0
+19:73,0
+24:0
+25:120
+26:120
+23:0
+15:0,0,0,0,0,0
+27:0,
+34:0,
+42:0
+72:0
+73:0
+95:0
+96:0
+97:0
+77:0
+78:0
+102:1
+93:0
+94:0
+92:0
+91:0
+90:0
+87:0
+75:
+43:
+103:8,8,8,3,8
+105:0,0,0,0,0,0,0,0,0,0
+104:Vensim Sans|12||0-0-0|0-0-0|-1--1--1|0-0-255|192-192-192|-1--1--1
