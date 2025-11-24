@@ -62,7 +62,7 @@ Controls how average fuel efficiency evolves due to cost pressure, operational i
 
 - **Value:** `0`
 - **Units:** `1/month`
-- **Description:** Rate at which vehicles lose efficiency in the absence of improvements. The model doesn't consider any degradation of fuel efficiency in the current version.
+- **Description:** Rate at which vehicles lose efficiency in the absence of improvements. The 10-year time horizon and lack of an explicit fleet age structure make degradation effects negligible.
 
 ### Tau Eff
 
@@ -97,6 +97,12 @@ Controls fuelprice, freight rates, and rate adjustment dynamics.
 - **Value:** `90`
 - **Units:** `¥/km`
 - **Description:** Operating cost per kilometre excluding fuel, calibrated from findings on fuel share of operating cost in the Japanese trucking industry [[9]](#ref9).
+
+### Baseline Price Margin
+
+- **Value:** `0.05`
+- **Units:** `fraction`
+- **Description:** Margin added to operating cost to construct freight price, calibrated to be right in the middle of of average trucking margins [[12]](#ref12).
 
 ## Freight Demand
 
@@ -136,7 +142,7 @@ Captures how shippers adjust demand in response to freight prices in the short a
 
 - **Value:** `0`
 - **Units:** `1/month`
-- **Description:** Baseline growth in economic activity, set to zero in the current version.
+- **Description:** Baseline growth in economic activity, negligible for a 10-year horizon.
 
 ## Financial Viability
 
@@ -159,16 +165,6 @@ Determines whether freight operators remain financially sustainable under differ
 - **Value:** `12`
 - **Units:** `months`
 - **Description:** Smoothing time for rolling financial margin evaluation, calibrated to represent an annual perspective on financial performance.
-
-## Exogenous Policy Inputs
-
-Scenario parameters that drive policy experiments.
-
-### Carbon Tax Rate
-
-- **Value:** `user-defined`
-- **Units:** `¥/tCO2`
-- **Description:** Carbon tax applied to fuel based on its carbon content.
 
 ## References
 

@@ -2,10 +2,6 @@ import pysd
 import os
 import shutil
 
-# This script translates the .mdl file to a .py file and moves it to the src directory
-# TODO: Open an issue about this in the pysd repository
-# https://github.com/SDXorg/pysd
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 
