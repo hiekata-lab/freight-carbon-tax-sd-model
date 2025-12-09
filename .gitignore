@@ -5,3 +5,5 @@ __pycache__/
 vensim/*
 !vensim/model.mdl
 !vensim/cld.mdl
+
+.cursorignore

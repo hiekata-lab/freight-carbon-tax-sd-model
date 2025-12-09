@@ -2,3 +2,4 @@ pysd
 pandas
 matplotlib
 ipykernel
+pyyaml

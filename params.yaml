@@ -1,0 +1,27 @@
+# Default parameters for the model
+
+carbon_tax_rate: 289
+baseline_ci: 0.00268
+baseline_demand: 19000000000
+baseline_fuel_efficiency: 2.84
+carbon_content_of_fuel: 0.00268
+carbon_tax_at_full_ci_reduction: 40000
+cost_pressure_at_max_improvement: 0.5
+cost_pressure_sensitivity: 0.6
+degradation_rate: 0
+desired_passthrough_share: 0.5
+duration_threshold: 6
+elasticity_lr: -0.6
+elasticity_sr: -0.2
+freight_activity_growth_rate: 0
+margin_threshold: 0.03
+max_efficiency: 1.25
+max_reduction_ci: 0.3
+pretax_fuel_price: 108
+nonfuel_cost_per_km: 90
+tau_ci: 120
+tau_eff: 24
+tau_lr: 24
+tau_m: 12
+tau_p: 6
+tau_sr: 3

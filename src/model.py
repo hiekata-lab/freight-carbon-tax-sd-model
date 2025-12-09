@@ -543,7 +543,7 @@ def freight_demand():
     depends_on={"freight_activity": 1, "average_fuel_efficiency": 1},
 )
 def fuel_consumption():
-    return freight_activity() / average_fuel_efficiency()
+    return freight_activity() / (average_fuel_efficiency() * 12)
 
 
 @component.add(
@@ -816,10 +816,9 @@ _smooth_shortrun_price_effect_on_demand = Smooth(
     },
 )
 def target_carbon_intensity():
+    k = 3000  # tax scale (¥/tCO2) where ~63% of max CI reduction is achieved
     return baseline_ci() * (
-        1
-        - max_reduction_ci()
-        * float(np.minimum(1, carbon_tax_rate() / carbon_tax_at_full_ci_reduction()))
+        1 - max_reduction_ci() * (1 - np.exp(- carbon_tax_rate() / k))
     )
 
 
