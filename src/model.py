@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 
 from pysd.py_backend.functions import if_then_else
-from pysd.py_backend.statefuls import Smooth, Integ
+from pysd.py_backend.statefuls import Integ, Smooth
 from pysd import Component
 
 __pysd_version__ = "3.14.3"
@@ -98,14 +98,57 @@ def time_step():
 #######################################################################
 
 
+@component.add(name="Tax Scale", comp_type="Constant", comp_subtype="Normal")
+def tax_scale():
+    return 3000
+
+
+@component.add(
+    name="Target Carbon Intensity",
+    units="tCO2/liter",
+    comp_type="Auxiliary",
+    comp_subtype="Normal",
+    depends_on={
+        "baseline_ci": 1,
+        "tax_scale": 1,
+        "carbon_tax_rate": 1,
+        "max_reduction_ci": 1,
+    },
+)
+def target_carbon_intensity():
+    return baseline_ci() * (
+        1 - max_reduction_ci() * (1 - float(np.exp(-carbon_tax_rate() / tax_scale())))
+    )
+
+
+@component.add(
+    name="Baseline Margin",
+    units="fraction",
+    comp_type="Constant",
+    comp_subtype="Normal",
+)
+def baseline_margin():
+    return 0.05
+
+
+@component.add(
+    name="Baseline Margin per km",
+    comp_type="Auxiliary",
+    comp_subtype="Normal",
+    depends_on={"baseline_margin": 1, "baseline_operating_cost_per_km": 1},
+)
+def baseline_margin_per_km():
+    return baseline_margin() * baseline_operating_cost_per_km()
+
+
 @component.add(
     name="Actual Freight Price",
     comp_type="Auxiliary",
     comp_subtype="Normal",
     depends_on={
         "baseline_freight_price": 1,
-        "extra_fuel_cost_per_km": 1,
         "effective_passthrough_share": 1,
+        "extra_fuel_cost_per_km": 1,
     },
 )
 def actual_freight_price():
@@ -189,16 +232,6 @@ def baseline_fuel_efficiency():
 
 
 @component.add(
-    name="Baseline Margin per km",
-    comp_type="Auxiliary",
-    comp_subtype="Normal",
-    depends_on={"baseline_operating_cost_per_km": 1},
-)
-def baseline_margin_per_km():
-    return 0.05 * baseline_operating_cost_per_km()
-
-
-@component.add(
     name="Baseline Operating Cost per km",
     comp_type="Auxiliary",
     comp_subtype="Normal",
@@ -241,16 +274,6 @@ _integ_carbon_intensity_of_fuel = Integ(
 
 
 @component.add(
-    name="Carbon Tax at Full CI Reduction",
-    units="¥/tCO2",
-    comp_type="Constant",
-    comp_subtype="Normal",
-)
-def carbon_tax_at_full_ci_reduction():
-    return 40000
-
-
-@component.add(
     name="Carbon Tax Rate", units="¥/tCO2", comp_type="Constant", comp_subtype="Normal"
 )
 def carbon_tax_rate():
@@ -287,8 +310,8 @@ def cost_pressure_at_max_improvement():
     comp_subtype="Normal",
     depends_on={
         "cost_pressure_sensitivity": 1,
-        "baseline_fuel_cost_per_km": 1,
         "fuel_cost_per_km": 1,
+        "baseline_fuel_cost_per_km": 1,
     },
 )
 def cost_pressure_on_efficiency():
@@ -433,8 +456,8 @@ _smooth_effective_passthrough_share = Smooth(
     depends_on={
         "average_fuel_efficiency": 2,
         "max_efficiency": 2,
-        "cost_pressure_at_max_improvement": 1,
         "cost_pressure_on_efficiency": 2,
+        "cost_pressure_at_max_improvement": 1,
     },
 )
 def efficiency_target():
@@ -543,7 +566,7 @@ def freight_demand():
     depends_on={"freight_activity": 1, "average_fuel_efficiency": 1},
 )
 def fuel_consumption():
-    return freight_activity() / (average_fuel_efficiency() * 12)
+    return freight_activity() / average_fuel_efficiency()
 
 
 @component.add(
@@ -586,14 +609,14 @@ def improvement():
             "initial": {
                 "underlying_freight_activity": 2,
                 "perceived_freight_price": 1,
-                "elasticity_lr": 1,
                 "baseline_freight_price": 1,
+                "elasticity_lr": 1,
             },
             "step": {
                 "underlying_freight_activity": 2,
                 "perceived_freight_price": 1,
-                "elasticity_lr": 1,
                 "baseline_freight_price": 1,
+                "elasticity_lr": 1,
                 "tau_lr": 1,
             },
         }
@@ -773,14 +796,14 @@ _smooth_rolling_margin = Smooth(
             "initial": {
                 "underlying_freight_activity": 2,
                 "perceived_freight_price": 1,
-                "elasticity_sr": 1,
                 "baseline_freight_price": 1,
+                "elasticity_sr": 1,
             },
             "step": {
                 "underlying_freight_activity": 2,
                 "perceived_freight_price": 1,
-                "elasticity_sr": 1,
                 "baseline_freight_price": 1,
+                "elasticity_sr": 1,
                 "tau_sr": 1,
             },
         }
@@ -801,25 +824,6 @@ _smooth_shortrun_price_effect_on_demand = Smooth(
     lambda: 1,
     "_smooth_shortrun_price_effect_on_demand",
 )
-
-
-@component.add(
-    name="Target Carbon Intensity",
-    units="tCO2/liter",
-    comp_type="Auxiliary",
-    comp_subtype="Normal",
-    depends_on={
-        "baseline_ci": 1,
-        "max_reduction_ci": 1,
-        "carbon_tax_rate": 1,
-        "carbon_tax_at_full_ci_reduction": 1,
-    },
-)
-def target_carbon_intensity():
-    k = 3000  # tax scale (¥/tCO2) where ~63% of max CI reduction is achieved
-    return baseline_ci() * (
-        1 - max_reduction_ci() * (1 - np.exp(- carbon_tax_rate() / k))
-    )
 
 
 @component.add(

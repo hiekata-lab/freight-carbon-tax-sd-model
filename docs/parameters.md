@@ -18,11 +18,15 @@ Describes how the carbon intensity (CI) of fuel responds to carbon pricing and d
 - **Units:** `fraction`
 - **Description:**  Maximum feasible fractional reduction in CI over 10 years under strong policy, calibrated to match EU heavy-duty vehicle CO2 standards [[2]](#ref2).
 
-### Carbon Tax at Full CI Reduction
+### <span style="color:red">REMOVED: Carbon Tax at Full CI Reduction</span>
 
 - **Value:** `40000`
 - **Units:** `¥/tCO2`
 - **Description:** Carbon tax level required to activate the maximum CI reduction potential, calibrated from observed findings of studies [[3]](#ref3) [[4]](#ref4).
+
+### <span style="color:green">ADDED: Tax Scale</span>
+
+- **Value:** `3000`
 
 ### Tau CI
 

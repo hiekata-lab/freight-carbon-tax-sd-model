@@ -163,11 +163,11 @@ This subsystem represents how carbon tax policy gradually reduces the carbon int
 - **Description:** The rate at which carbon intensity transitions toward its target level.
 The adjustment is smoother and slower than policy changes, reflecting real-world behaviour in fuel production.
 
-### Target Carbon Intensity
+### <span style="color:yellow">MODIFIED: Target Carbon Intensity</span>
 
-- **Equation:** Target Carbon Intensity = Baseline CI * (1 - Max Reduction CI * MIN(1, (Carbon Tax Rate) / (Carbon Tax at Full CI Reduction)))
+- **Equation:** Target Carbon Intensity = Baseline CI * (1 - Max Reduction CI * (1 - EXP(- Carbon Tax Rate)))
 - **Units:** `tCO2/liter`
-- **Description:** The policy-determined desired carbon intensity. It decreases linearly with carbon tax rate until reaching its maximum feasible reduction fraction, representing the incentive for refineries and the energy sector to adopt lower-carbon fuel pathways.
+- **Description:** *TODO*
 
 ## Emissions & Consumption
 
