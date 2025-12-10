@@ -110,9 +110,9 @@ def tax_scale():
     comp_subtype="Normal",
     depends_on={
         "baseline_ci": 1,
-        "tax_scale": 1,
-        "carbon_tax_rate": 1,
         "max_reduction_ci": 1,
+        "carbon_tax_rate": 1,
+        "tax_scale": 1,
     },
 )
 def target_carbon_intensity():
@@ -310,8 +310,8 @@ def cost_pressure_at_max_improvement():
     comp_subtype="Normal",
     depends_on={
         "cost_pressure_sensitivity": 1,
-        "fuel_cost_per_km": 1,
         "baseline_fuel_cost_per_km": 1,
+        "fuel_cost_per_km": 1,
     },
 )
 def cost_pressure_on_efficiency():
@@ -456,8 +456,8 @@ _smooth_effective_passthrough_share = Smooth(
     depends_on={
         "average_fuel_efficiency": 2,
         "max_efficiency": 2,
-        "cost_pressure_on_efficiency": 2,
         "cost_pressure_at_max_improvement": 1,
+        "cost_pressure_on_efficiency": 2,
     },
 )
 def efficiency_target():
@@ -608,14 +608,14 @@ def improvement():
         "_smooth_longrun_price_effect_on_demand": {
             "initial": {
                 "underlying_freight_activity": 2,
-                "perceived_freight_price": 1,
                 "baseline_freight_price": 1,
+                "perceived_freight_price": 1,
                 "elasticity_lr": 1,
             },
             "step": {
                 "underlying_freight_activity": 2,
-                "perceived_freight_price": 1,
                 "baseline_freight_price": 1,
+                "perceived_freight_price": 1,
                 "elasticity_lr": 1,
                 "tau_lr": 1,
             },
@@ -795,14 +795,14 @@ _smooth_rolling_margin = Smooth(
         "_smooth_shortrun_price_effect_on_demand": {
             "initial": {
                 "underlying_freight_activity": 2,
-                "perceived_freight_price": 1,
                 "baseline_freight_price": 1,
+                "perceived_freight_price": 1,
                 "elasticity_sr": 1,
             },
             "step": {
                 "underlying_freight_activity": 2,
-                "perceived_freight_price": 1,
                 "baseline_freight_price": 1,
+                "perceived_freight_price": 1,
                 "elasticity_sr": 1,
                 "tau_sr": 1,
             },

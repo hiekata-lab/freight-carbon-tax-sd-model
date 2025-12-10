@@ -1,0 +1,13 @@
+# Pre commit hooks to clear output from jupyter notebooks before committing
+# Activate configuration with 'pre-commit install'
+
+repos:
+  - repo: local
+    hooks:
+      - id: jupyter-nb-clear-output
+        name: jupyter-nb-clear-output
+        files: ^notebooks/.*\.ipynb$
+        stages: [pre-commit]
+        language: system
+        pass_filenames: true
+        entry: jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace

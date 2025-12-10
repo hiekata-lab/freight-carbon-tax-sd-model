@@ -2,4 +2,6 @@ pysd
 pandas
 matplotlib
 ipykernel
+nbconvert
 pyyaml
+pre-commit

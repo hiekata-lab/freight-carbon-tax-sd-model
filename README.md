@@ -13,6 +13,11 @@ System dynamics model for analyzing the impacts of carbon taxation on Japan's co
 
 ```bash
 python3 -m venv venv
-pip install -r requirements.txt
 source venv/bin/activate
+pip install -r requirements.txt
+python -m ipykernel install --user --name=sd-model --display-name="Python (sd-model)"
+pre-commit install
+
+# Or
+source setup.sh
 ```
