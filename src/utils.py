@@ -148,4 +148,3 @@ def create_tornado_chart_on_axis(ax, df, tax_level, output_var):
     ax.grid(axis='x', alpha=0.3)
     
     return ax
-
